@@ -1,0 +1,9 @@
+^\.git/
+\bMakefile$
+\bblib/
+\bpm_to_blib$
+^MYMETA\.
+^Samizdat-Plugin-Skeleton-
+\.tar\.gz$
+~$
+\.bak$

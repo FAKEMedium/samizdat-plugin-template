@@ -1,0 +1,13 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Skeleton settings
+# audience: core | operator | offerable — who this module is for.
+x-samizdat-audience: operator
+type: object
+additionalProperties: false
+properties:
+  enabled:
+    type: boolean
+    default: false
+  # secret:
+  #   type: string
+  #   writeOnly: true        # writeOnly marks secrets (never echoed back)

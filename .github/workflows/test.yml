@@ -1,0 +1,41 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this distribution
+        uses: actions/checkout@v4
+
+      - name: Checkout Samizdat core (provides Samizdat::* on PERL5LIB)
+        uses: actions/checkout@v4
+        with:
+          repository: FAKEMedium/Samizdat
+          path: .samizdat-core
+
+      - name: System libraries (DBD::Pg / DBD::mysql / UUID XS)
+        run: sudo apt-get update -qq && sudo apt-get install -y libpq-dev default-libmysqlclient-dev uuid-dev
+
+      - name: Set up Perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: '5.38'
+
+      - name: Install dependencies (core support + this dist's PREREQ)
+        env:
+          PERL5LIB: ${{ github.workspace }}/.samizdat-core/lib
+        run: |
+          cpanm --notest --quiet CryptX YAML::XS
+          cpanm --notest --quiet --installdeps .
+
+      - name: Build and test (core on PERL5LIB)
+        env:
+          PERL5LIB: ${{ github.workspace }}/.samizdat-core/lib
+        run: |
+          perl Makefile.PL
+          make
+          make test

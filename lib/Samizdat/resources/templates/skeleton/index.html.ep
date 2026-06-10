@@ -1,0 +1,3 @@
+% layout 'bootstrap';
+<h1><%= __('Skeleton') %></h1>
+<p>Replace this with your plugin's view. Data is fetched as JSON; see index.js.</p>
