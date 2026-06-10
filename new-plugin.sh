@@ -6,9 +6,9 @@ M=$1
 [ -z "$M" ] && { echo "Usage: $0 <ModuleName>  (CamelCase, e.g. Widget)"; exit 1; }
 m=$(printf '%s' "$M" | tr 'A-Z' 'a-z')
 
-# rename paths (deepest first) containing 'skeleton'
-find . -depth -name '*skeleton*' -not -path './.git/*' | while read -r p; do
-  np=$(printf '%s' "$p" | sed "s/skeleton/$m/g")
+# rename paths (deepest first) matching skeleton in EITHER case (Plugin/Skeleton.pm, settings/skeleton/)
+find . -depth -iname '*skeleton*' -not -path './.git/*' | while read -r p; do
+  np=$(printf '%s' "$p" | sed "s/Skeleton/$M/g; s/skeleton/$m/g")
   mkdir -p "$(dirname "$np")"; mv "$p" "$np"
 done
 
